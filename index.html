@@ -199,6 +199,27 @@ button:disabled {
         <p>3. Complete 5 sentences correctly to win a Pokemon!</p>
         <p>4. Use Settings to customize your own sentence bank.</p>
     </div>
+    <div class="modal" id="settingsModal">
+    <div class="modal-content">
+        <h2>Settings</h2>
+        <div class="setting-group">
+            <label for="sentenceSource">Sentence Bank:</label>
+            <select id="sentenceSource" class="settings-select">
+                <option value="default">Default (Presentation Sentences)</option>
+                <option value="custom">Custom Sentences</option>
+            </select>
+        </div>
+        <div class="setting-group">
+            <label for="customSentences">Custom Sentences (one per line):</label>
+            <textarea id="customSentences" class="settings-textarea" 
+                      placeholder="Enter your custom sentences here, one per line"></textarea>
+        </div>
+        <div class="settings-buttons">
+            <button id="saveSettings" class="settings-button">Save Settings</button>
+            <button id="closeSettings" class="settings-button">Cancel</button>
+        </div>
+    </div>
+</div>
     <div class="author-info">
         Author: Aaron Shi<br>
         Released in 2025.
