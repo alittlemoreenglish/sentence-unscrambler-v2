@@ -133,6 +133,7 @@ button:disabled {
     text-align: left;
 }
 
+/* Settings Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -149,53 +150,48 @@ button:disabled {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(237, 221, 221,0.2);
+    background: #ffffff;  /* Changed to white background */
     padding: 2rem;
     border-radius: 15px;
     width: 90%;
     max-width: 600px;
-    color: black;
-    font-color: black;
-}
-
-.modal-content textarea {
-    width: 100%;
-    height: 200px;
-    margin: 10px 0;
-    padding: 10px;
-}
-
-.modal-content select {
-    width: 100%;
-    padding: 8px;
-    margin: 10px 0;
-}
-
-.author-info {
-    margin-top: 20px;
-    font-size: 0.8rem;
-    opacity: 0.7;
+    color: #333333;  /* Dark gray text for better contrast */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .setting-group {
     margin-bottom: 1.5rem;
 }
 
+.setting-group h2 {
+    color: #1a2a6c;  /* Dark blue heading */
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
 .setting-group label {
     display: block;
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
+    color: #1a2a6c;  /* Dark blue labels */
+    font-weight: 600;
 }
 
 .settings-select {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.8rem;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.1);
-    color: gray;
+    border: 2px solid #e0e0e0;  /* Light gray border */
+    background: #ffffff;
+    color: #333333;
     font-size: 1rem;
     margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.settings-select:focus {
+    border-color: #3498db;  /* Blue highlight on focus */
+    outline: none;
 }
 
 .settings-textarea {
@@ -203,11 +199,21 @@ button:disabled {
     min-height: 200px;
     padding: 0.8rem;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.1);
-    color: gray;
+    border: 2px solid #e0e0e0;
+    background: #ffffff;
+    color: #333333;
     font-size: 1rem;
     resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+.settings-textarea:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.settings-textarea::placeholder {
+    color: #999999;  /* Medium gray placeholder text */
 }
 
 .settings-buttons {
@@ -226,18 +232,43 @@ button:disabled {
     transition: all 0.3s ease;
 }
 
-.settings-button:hover {
-    transform: translateY(-2px);
-}
-
 #saveSettings {
     background: #3498db;
     color: white;
+    padding: 0.8rem 2rem;
+}
+
+#saveSettings:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
 }
 
 #closeSettings {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
+    background: #e0e0e0;
+    color: #333333;
+}
+
+#closeSettings:hover {
+    background: #d0d0d0;
+    transform: translateY(-2px);
+}
+
+/* Add subtle hover states for interactive elements */
+.settings-select:hover,
+.settings-textarea:hover {
+    border-color: #3498db;
+}
+
+/* Error state for validation */
+.settings-select.error,
+.settings-textarea.error {
+    border-color: #e74c3c;
+}
+
+/* Success state for validation */
+.settings-select.success,
+.settings-textarea.success {
+    border-color: #2ecc71;
 }
 </style>
 </head>
