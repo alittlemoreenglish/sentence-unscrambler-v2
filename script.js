@@ -166,7 +166,7 @@ function checkAnswer() {
         if (!hasScored) {
             score++;
             hasScored = true;
-            document.getElementById('score').textContent = `Score: ${score}`;
+            document.getElementById('score').textContent = `${score}`;
         }
         
         document.getElementById('feedback').textContent = '✨ Correct! ✨';
