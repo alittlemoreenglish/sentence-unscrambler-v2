@@ -19,7 +19,7 @@ body {
     align-items: center;
     justify-content: center;
     background-image: url('https://alittlemoreenglish.weebly.com/uploads/2/6/6/3/26638990/gradient-background-soft-colors-blueish-cloud-sky_orig.jpg');
-    background-size: cover;
+    background-size: #87CEEB;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -175,32 +175,6 @@ button:disabled {
     font-size: 0.8rem;
     opacity: 0.7;
 }
-/* Settings Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 1000;
-}
-
-.modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(26, 42, 108, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 2rem;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 600px;
-    color: white;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
 
 .setting-group {
     margin-bottom: 1.5rem;
@@ -295,23 +269,27 @@ button:disabled {
     </div>
 </div>
 
-<div class="modal" id="settingsModal">
-    <div class="modal-content">
-        <h2>Settings</h2>
-        <div>
-            <label for="sentenceSource">Sentence Bank:</label>
-            <select id="sentenceSource">
-                <option value="default">Default (Presentation Sentences)</option>
-                <option value="custom">Custom Sentences</option>
-            </select>
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <h2>Settings</h2>
+            <div class="setting-group">
+                <label for="sentenceSource">Sentence Bank:</label>
+                <select id="sentenceSource" class="settings-select">
+                    <option value="default">Default (Presentation Sentences)</option>
+                    <option value="custom">Custom Sentences</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label for="customSentences">Custom Sentences (one per line):</label>
+                <textarea id="customSentences" class="settings-textarea" 
+                          placeholder="Enter your custom sentences here, one per line"></textarea>
+            </div>
+            <div class="settings-buttons">
+                <button id="saveSettings">Save Settings</button>
+                <button id="closeSettings">Cancel</button>
+            </div>
         </div>
-        <div>
-            <label for="customSentences">Custom Sentences (one per line):</label>
-            <textarea id="customSentences" placeholder="Enter your custom sentences here, one per line"></textarea>
-        </div>
-        <button id="saveSettings">Save Settings</button>
-        <button id="closeSettings">Cancel</button>
     </div>
-</div>
+    <script src="script.js"></script>
 </body>
 </html>

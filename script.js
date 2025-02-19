@@ -1,6 +1,5 @@
 // Game state variables
 let currentSentence = "";
-let selectedWords = [];
 let score = 0;
 let hasScored = false;
 let customSentences = [];
@@ -172,6 +171,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('skipButton').addEventListener('click', newSentence);
     document.getElementById('scrambledWords').addEventListener('click', handleWordSelection);
     document.getElementById('answerArea').addEventListener('click', handleWordSelection);
+    
+    // Add directions button handler
+    document.getElementById('directionsButton').addEventListener('click', () => {
+        const directions = document.getElementById('directions');
+        directions.style.display = directions.style.display === 'none' ? 'block' : 'none';
+    });
     
     document.getElementById('settingsButton').addEventListener('click', () => {
         document.getElementById('settingsModal').style.display = 'block';
