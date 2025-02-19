@@ -175,7 +175,7 @@ function checkAnswer() {
             gameComplete = true;
             document.getElementById('checkButton').style.display = 'none';
             document.getElementById('skipButton').style.display = 'none';
-            document.getElementById('feedback').textContent = '🎉 Congratulations! You\'ve earned a Pokemon! 🎉';
+            showVictoryModal(); // Show the victory modal
         } else {
             // Only continue if game isn't complete
             setTimeout(() => {
@@ -187,6 +187,40 @@ function checkAnswer() {
     } else {
         document.getElementById('feedback').textContent = '❌ Try again! ❌';
     }
+}
+
+async function showVictoryModal() {
+    const modal = document.getElementById("victoryModal");
+    const pokemonId = Math.floor(Math.random() * 898) + 1;
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+    const data = await response.json();
+    const pokemonImageDiv = document.getElementById("pokemonImage");
+    const img = document.createElement("img");
+    img.src = data.sprites.other["official-artwork"].front_default;
+    img.alt = `${data.name} Pokemon artwork`;
+    img.width = 300;
+    img.height = 300;
+    pokemonImageDiv.innerHTML = "";
+    pokemonImageDiv.appendChild(img);
+    modal.style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("victoryModal").style.display = "none";
+    resetGame();
+}
+
+function resetGame() {
+    gameStarted = false;
+    gameComplete = false;
+    score = 0;
+    document.getElementById('score').textContent = 'Score: 0';
+    document.getElementById('startButton').style.display = 'inline';
+    document.getElementById('checkButton').style.display = 'none';
+    document.getElementById('skipButton').style.display = 'none';
+    document.getElementById('feedback').textContent = '';
+    document.getElementById('scrambledWords').innerHTML = '';
+    document.getElementById('answerArea').innerHTML = '';
 }
 
 function handleWordSelection(event) {
