@@ -1,0 +1,22 @@
+<!-- Add this inside the container div, before the author-info div -->
+<div class="modal" id="settingsModal">
+    <div class="modal-content">
+        <h2>Settings</h2>
+        <div class="setting-group">
+            <label for="sentenceSource">Sentence Bank:</label>
+            <select id="sentenceSource" class="settings-select">
+                <option value="default">Default (Presentation Sentences)</option>
+                <option value="custom">Custom Sentences</option>
+            </select>
+        </div>
+        <div class="setting-group">
+            <label for="customSentences">Custom Sentences (one per line):</label>
+            <textarea id="customSentences" class="settings-textarea" 
+                      placeholder="Enter your custom sentences here, one per line"></textarea>
+        </div>
+        <div class="settings-buttons">
+            <button id="saveSettings" class="settings-button">Save Settings</button>
+            <button id="closeSettings" class="settings-button">Cancel</button>
+        </div>
+    </div>
+</div>
