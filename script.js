@@ -4,10 +4,10 @@ let selectedWords = [];
 let score = 0;
 let hasScored = false;
 let customSentences = [];
-let currentSentenceBank = "default"; // "default" or "custom"
+let currentSentenceBank = "default";
 let gameStarted = false;
+let gameComplete = false;
 
-// Default sentences for presentation
 const defaultSentences = [
     "Good morning, everyone. Thank you for being here today.",
     "Let's begin with a brief introduction to our topic.",
@@ -21,18 +21,24 @@ const defaultSentences = [
     "We can move on to the next section now."
 ];
 
-// Settings Management Functions
 function loadSettings() {
-    const savedBank = localStorage.getItem('sentenceBank');
-    const savedSentences = localStorage.getItem('customSentences');
-    
-    if (savedBank) {
-        currentSentenceBank = savedBank;
-        document.getElementById('sentenceSource').value = savedBank;
-    }
-    
-    if (savedSentences) {
-        customSentences = JSON.parse(savedSentences);
+    try {
+        const savedBank = localStorage.getItem('sentenceBank');
+        const savedSentences = localStorage.getItem('customSentences');
+        
+        if (savedBank) {
+            currentSentenceBank = savedBank;
+            document.getElementById('sentenceSource').value = savedBank;
+        }
+        
+        if (savedSentences) {
+            customSentences = JSON.parse(savedSentences);
+        }
+    } catch (error) {
+        console.error('Error loading settings:', error);
+        // Reset to defaults if there's an error
+        currentSentenceBank = "default";
+        customSentences = [];
     }
 }
 
@@ -42,27 +48,30 @@ function saveSettings() {
         .split('\n')
         .filter(s => s.trim());
     
-    // Validate that we have enough sentences if switching to custom
     if (source === 'custom' && sentences.length < 5) {
         alert('Please enter at least 5 sentences for the custom sentence bank.');
+        document.getElementById('sentenceSource').value = currentSentenceBank;
         return;
     }
     
     currentSentenceBank = source;
     customSentences = sentences;
     
-    localStorage.setItem('sentenceBank', source);
-    localStorage.setItem('customSentences', JSON.stringify(sentences));
-    
-    document.getElementById('settingsModal').style.display = 'none';
-    
-    // If game is in progress, get a new sentence from the updated bank
-    if (gameStarted) {
-        newSentence();
+    try {
+        localStorage.setItem('sentenceBank', source);
+        localStorage.setItem('customSentences', JSON.stringify(sentences));
+        document.getElementById('settingsModal').style.display = 'none';
+        
+        // Only get a new sentence if the game is in progress and not complete
+        if (gameStarted && !gameComplete) {
+            newSentence();
+        }
+    } catch (error) {
+        console.error('Error saving settings:', error);
+        alert('Failed to save settings. Please try again.');
     }
 }
 
-// Game Logic Functions
 function getCurrentSentences() {
     return currentSentenceBank === 'custom' && customSentences.length > 0 
         ? customSentences 
@@ -71,6 +80,7 @@ function getCurrentSentences() {
 
 function startGame() {
     gameStarted = true;
+    gameComplete = false;
     document.getElementById('startButton').style.display = 'none';
     document.getElementById('checkButton').style.display = 'inline';
     document.getElementById('skipButton').style.display = 'inline';
@@ -82,15 +92,15 @@ function startGame() {
 }
 
 function newSentence() {
+    if (gameComplete) return;
+    
     const sentences = getCurrentSentences();
     const randomIndex = Math.floor(Math.random() * sentences.length);
     currentSentence = sentences[randomIndex];
     
-    // Split sentence into words and shuffle
     const words = currentSentence.split(/\s+/);
     const shuffledWords = [...words].sort(() => Math.random() - 0.5);
     
-    // Update display
     const scrambledWordsDiv = document.getElementById('scrambledWords');
     scrambledWordsDiv.innerHTML = '';
     
@@ -123,22 +133,26 @@ function checkAnswer() {
         document.getElementById('feedback').textContent = '✨ Correct! ✨';
         
         if (score >= 5) {
-            // Game complete - show Pokemon reward
+            gameComplete = true;
             document.getElementById('checkButton').style.display = 'none';
             document.getElementById('skipButton').style.display = 'none';
             document.getElementById('feedback').textContent = '🎉 Congratulations! You\'ve earned a Pokemon! 🎉';
-            // Add Pokemon reward logic here
         } else {
-            // Continue to next sentence after brief delay
-            setTimeout(newSentence, 1500);
+            // Only continue if game isn't complete
+            setTimeout(() => {
+                if (!gameComplete) {
+                    newSentence();
+                }
+            }, 1500);
         }
     } else {
         document.getElementById('feedback').textContent = '❌ Try again! ❌';
     }
 }
 
-// UI Event Handlers
 function handleWordSelection(event) {
+    if (!gameStarted || gameComplete) return;
+    
     const clickedElement = event.target;
     if (!clickedElement.classList.contains('word')) return;
     
@@ -146,12 +160,6 @@ function handleWordSelection(event) {
     const targetArea = sourceArea === 'scrambledWords' ? 'answerArea' : 'scrambledWords';
     
     document.getElementById(targetArea).appendChild(clickedElement);
-    
-    if (targetArea === 'answerArea') {
-        selectedWords.push(clickedElement.dataset.index);
-    } else {
-        selectedWords = selectedWords.filter(index => index !== clickedElement.dataset.index);
-    }
 }
 
 // Initialize
@@ -165,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('scrambledWords').addEventListener('click', handleWordSelection);
     document.getElementById('answerArea').addEventListener('click', handleWordSelection);
     
-    // Settings Modal Event Listeners
     document.getElementById('settingsButton').addEventListener('click', () => {
         document.getElementById('settingsModal').style.display = 'block';
         document.getElementById('customSentences').value = customSentences.join('\n');
@@ -181,7 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close modal when clicking outside
     window.addEventListener('click', (event) => {
         const modal = document.getElementById('settingsModal');
-        if (event.target === modal) {
+        const modalContent = modal.querySelector('.modal-content');
+        if (event.target === modal && !modalContent.contains(event.target)) {
             modal.style.display = 'none';
         }
     });
