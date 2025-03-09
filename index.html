@@ -106,6 +106,10 @@ button:disabled {
     transform: none;
 }
 
+button.active {
+    background: rgba(46, 204, 113, 0.4); /* Green background for active state */
+}
+
 .score {
     font-size: 1.2rem;
     margin: 20px 0;
@@ -131,6 +135,23 @@ button:disabled {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     text-align: left;
+}
+
+/* Speech button styles */
+#speakSentenceButton {
+    background: rgba(52, 152, 219, 0.4);
+}
+
+#speakSentenceButton:hover {
+    background: rgba(52, 152, 219, 0.6);
+}
+
+#ttsToggle {
+    transition: all 0.3s;
+}
+
+#ttsToggle.active {
+    background: rgba(46, 204, 113, 0.4);
 }
 
 /* Settings Modal Styles */
@@ -331,12 +352,17 @@ button:disabled {
     <div class="feedback" id="feedback"></div>
     <div class="scrambled-words" id="scrambledWords"></div>
     <div class="answer-area" id="answerArea"></div>
-    <button id="startButton">Start Quiz</button>
+    <button id="startButton">Start</button>
     <button id="checkButton" style="display: none;">Check Answer</button>
     <button id="skipButton" style="display: none;">Skip This Sentence</button>
+    <button id="nextSentenceButton" style="display: none;">Next Sentence</button>
+    <button id="speakSentenceButton" style="display: none;">
+        <span>🔊 Read Sentence</span>
+    </button>
     <div class="control-buttons">
         <button id="settingsButton">Settings</button>
         <button id="directionsButton">Directions</button>
+        <button id="ttsToggle">Voice: OFF</button>
     </div>
     <div class="directions" id="directions">
         <h3>How to Play:</h3>
@@ -344,12 +370,13 @@ button:disabled {
         <p>2. Click Check Answer to verify your solution.</p>
         <p>3. Complete 5 sentences correctly to win a Pokemon!</p>
         <p>4. Use Settings to customize your own sentence bank.</p>
-        <p>5. The customized sentence bank is saved in the local browser cache.</p>
+        <p>5. Toggle Voice ON to hear words as you click them.</p>
+        <p>6. After correctly completing a sentence, use the Read Sentence button to hear the full sentence.</p>
     </div>
 
     <div class="author-info">
         Author: Aaron Shi<br>
-        Released in 2025. v2.
+        Released in March 2025. v3.2.
     </div>
 </div>
 
