@@ -8,7 +8,7 @@ let gameStarted = false;
 let gameComplete = false;
 let ttsSetting = false; 
 
-const defaultSentences = [
+const sentences = [
     "The school bell rings loudly every morning.",
     "Students hurry to their classrooms with heavy backpacks.",
     "Teachers explain lessons with enthusiasm and patience.",
